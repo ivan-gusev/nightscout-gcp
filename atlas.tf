@@ -39,7 +39,7 @@ resource "mongodbatlas_cluster" "cluster" {
 
 resource "mongodbatlas_database_user" "user" {
   project_id         = mongodbatlas_project.nightscout.id
-  auth_database_name = "nightscout"
+  auth_database_name = "admin"
 
   username = var.db_user
   password = random_string.mongodb_password.result
