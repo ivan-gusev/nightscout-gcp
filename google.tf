@@ -23,6 +23,12 @@ resource "google_project_service" "svc" {
   ])
 }
 
+resource "random_string" "api_secret" {
+  length  = 12
+  special = true
+  upper   = true
+}
+
 resource "google_cloud_run_service" "app" {
   project = var.google_project_id
 
@@ -37,6 +43,10 @@ resource "google_cloud_run_service" "app" {
         env {
           name  = "MONGODB_URI"
           value = local.atlas_uri
+        }
+        env {
+          name  = "API_SECRET"
+          value = random_string.api_secret.result
         }
       }
     }

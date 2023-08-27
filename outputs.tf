@@ -16,3 +16,6 @@ output "app_url" {
   value = google_cloud_run_service.app.status[0].url
 }
 
+output "api_secret" {
+  value = random_string.api_secret.result
+}
