@@ -14,22 +14,8 @@
 
 provider "google" {}
 
-resource "google_project" "prj" {
-  project_id      = local.project_id
-  name            = var.project_name
-  billing_account = var.google_billing_account
-
-  lifecycle {
-    # ignoring org_id changes allows the project to be created in whatever org
-    # the user is part of by default, without having to explicitly include the
-    # org id in the terraform config. is this a problem waiting to happen? only
-    # time will tell.
-    ignore_changes = [org_id]
-  }
-}
-
 resource "google_project_service" "svc" {
-  project = google_project.prj.name
+  project = var.google_project_id
   service = "${each.value}.googleapis.com"
 
   for_each = toset([
@@ -38,9 +24,9 @@ resource "google_project_service" "svc" {
 }
 
 resource "google_cloud_run_service" "app" {
-  project = google_project.prj.name
+  project = var.google_project_id
 
-  name     = "nightscout-"
+  name     = "nightscout"
   location = var.google_cloud_region
 
   template {

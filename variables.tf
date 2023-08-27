@@ -30,6 +30,12 @@ variable "project_name" {
 # for a mapping of Atlas region names to Google Cloud region names. In most cases
 # you should use the same region for both services.
 
+variable "google_project_id" {
+  type        = string
+  description = "the Google Cloud project_id in which to create resources"
+
+}
+
 variable "google_cloud_region" {
   type        = string
   description = "the Google Cloud region in which to create resources"
@@ -46,15 +52,6 @@ variable "app_image" {
   type        = string
   description = "the fully-qualified name of your app image"
   default     = "nightscout/cgm-remote-monitor:14.2.6"
-}
-
-###-----------------------------------------------------------------------------
-### Google Cloud
-###-----------------------------------------------------------------------------
-
-variable "google_billing_account" {
-  type        = string
-  description = "the ID of your Google Cloud billing account"
 }
 
 ###-----------------------------------------------------------------------------
