@@ -45,7 +45,7 @@ resource "mongodbatlas_database_user" "user" {
   password = random_string.mongodb_password.result
 
   roles {
-    role_name     = "readWrite"
+    role_name     = "readWriteAnyDatabase"
     database_name = var.db_name
   }
 }
@@ -55,7 +55,7 @@ locals {
   # provider doesn't give us a good way to get the hostname without the protocol
   # part so we end up doing some slicing and dicing to get the creds into the URI
   atlas_uri = replace(
-    mongodbatlas_cluster.cluster.srv_address,
+    "${mongodbatlas_cluster.cluster.srv_address}/${local.project_id}?retryWrites=true&w=majority",
     "://",
     "://${var.db_user}:${mongodbatlas_database_user.user.password}@"
   )
